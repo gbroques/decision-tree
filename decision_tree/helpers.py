@@ -31,3 +31,15 @@ def count_labels(rows: List) -> Counter:
         label = row[-1]
         class_counts[label] += 1
     return class_counts
+
+
+def is_numeric(value) -> bool:
+    """Test if a value is numeric.
+
+    Args:
+        value: Any value.
+
+    Returns:
+        True if the value is an int or float. False otherwise.
+    """
+    return isinstance(value, int) or isinstance(value, float)

@@ -3,6 +3,7 @@ from collections import Counter
 
 from decision_tree.helpers import count_labels
 from decision_tree.helpers import get_unique_values
+from decision_tree.helpers import is_numeric
 
 
 class HelpersTest(unittest.TestCase):
@@ -26,6 +27,14 @@ class HelpersTest(unittest.TestCase):
         expected_label_counts = Counter({'Apple': 2, 'Grape': 2, 'Lemon': 1})
         label_counts = count_labels(self.training_data)
         self.assertEqual(expected_label_counts, label_counts)
+
+    def test_is_numeric(self):
+        self.assertTrue(is_numeric(0.5))
+        self.assertTrue(is_numeric(6))
+
+        self.assertFalse(is_numeric('hi'))
+        self.assertFalse(is_numeric({'hello': 'world'}))
+        self.assertFalse(is_numeric([1, 2, 3]))
 
 
 if __name__ == '__main__':
