@@ -11,3 +11,7 @@ class Leaf:
 
     def __init__(self, rows: List):
         self.predictions = count_labels(rows)
+
+    def __eq__(self, other):
+        return (isinstance(other, Leaf) and
+                self.predictions == other.predictions)

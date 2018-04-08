@@ -1,6 +1,8 @@
 import unittest
 
 from decision_tree import DecisionTree
+from decision_tree.decision_node import DecisionNode
+from decision_tree.leaf import Leaf
 from decision_tree.question import Question
 
 
@@ -63,6 +65,22 @@ class DecisionTreeTest(unittest.TestCase):
         rows = [['Green', 3, 'Apple']]
         best_info_gain, best_question = DecisionTree.find_best_split(rows)
         self.assertIsNone(best_question)
+
+    def test_build_tree(self):
+        expected_tree = self.build_expected_tree()
+        decision_tree = DecisionTree()
+        tree = decision_tree.build_tree(self.training_data)
+        self.assertEqual(expected_tree, tree)
+
+    @staticmethod
+    def build_expected_tree() -> DecisionNode:
+        question = Question(0, 'Red')
+        true_branch = Leaf([['Red', 1, 'Grape'], ['Red', 1, 'Grape']])
+        child_question = Question(0, 'Yellow')
+        child_true_branch = Leaf([['Yellow', 3, 'Apple'], ['Yellow', 3, 'Lemon']])
+        child_false_branch = Leaf([['Green', 3, 'Apple']])
+        false_branch = DecisionNode(child_question, child_true_branch, child_false_branch)
+        return DecisionNode(question, true_branch, false_branch)
 
 
 if __name__ == '__main__':

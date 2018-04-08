@@ -1,5 +1,18 @@
+from decision_tree import DecisionTree
+from decision_tree.decision_node import print_tree
+
+
 def main():
-    print('Hello World')
+    training_data = [
+        ['Green', 3, 'Apple'],
+        ['Yellow', 3, 'Apple'],
+        ['Red', 1, 'Grape'],
+        ['Red', 1, 'Grape'],
+        ['Yellow', 3, 'Lemon']
+    ]
+    decision_tree = DecisionTree()
+    tree = decision_tree.build_tree(training_data)
+    print_tree(tree)  # TODO: Add __str__ to DecisionNode
 
 
 if __name__ == '__main__':

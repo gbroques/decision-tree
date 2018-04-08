@@ -1,10 +1,33 @@
-from typing import List, Tuple
+from typing import List, Tuple, Union
 
+from .decision_node import DecisionNode
 from .helpers import count_labels
+from .leaf import Leaf
 from .question import Question
 
 
 class DecisionTree:
+
+    def build_tree(self, rows: List) -> Union[Leaf, DecisionNode]:
+        """Builds the tree.
+
+        Args:
+            rows: The rows of the dataset.
+
+        Returns:
+            Root decision node.
+        """
+        info_gain, question = self.find_best_split(rows)
+
+        if info_gain == 0:
+            return Leaf(rows)
+
+        true_rows, false_rows = self.partition(rows, question)
+
+        true_branch = self.build_tree(true_rows)
+        false_branch = self.build_tree(false_rows)
+
+        return DecisionNode(question, true_branch, false_branch)
 
     @classmethod
     def find_best_split(cls, rows: List) -> Tuple[float, Question]:

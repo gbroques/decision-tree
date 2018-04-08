@@ -11,6 +11,10 @@ class LeafTest(unittest.TestCase):
         leaf = Leaf(rows)
         self.assertEqual(expected_predictions, leaf.predictions)
 
+    def test_equals(self):
+        rows = [['Red', 1, 'Grape'], ['Red', 1, 'Grape']]
+        self.assertEqual(Leaf(rows), Leaf(rows))
+
 
 if __name__ == '__main__':
     unittest.main()
