@@ -1,15 +1,17 @@
 from typing import List
 
-from .helpers import count_labels
+from .util import count_labels
+from .node import Node
 
 
-class Leaf:
+class Leaf(Node):
     """A Leaf node classifies data.
 
     Holds a dictionary of labels to counts.
     """
 
-    def __init__(self, rows: List):
+    def __init__(self, rows: List[List]):
+        super().__init__()
         self.predictions = count_labels(rows)
 
     def __eq__(self, other):

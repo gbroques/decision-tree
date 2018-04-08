@@ -1,5 +1,4 @@
 from decision_tree import DecisionTree
-from decision_tree.decision_node import print_tree
 
 
 def main():
@@ -12,7 +11,7 @@ def main():
     ]
     decision_tree = DecisionTree()
     tree = decision_tree.build_tree(training_data)
-    print_tree(tree)  # TODO: Add __str__ to DecisionNode
+    print(tree)
 
 
 if __name__ == '__main__':

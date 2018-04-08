@@ -1,12 +1,12 @@
 import unittest
 from collections import Counter
 
-from decision_tree.helpers import count_labels
-from decision_tree.helpers import get_unique_values
-from decision_tree.helpers import is_numeric
+from decision_tree.util import count_labels
+from decision_tree.util import get_unique_values
+from decision_tree.util import is_numeric
 
 
-class HelpersTest(unittest.TestCase):
+class UtilTest(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):

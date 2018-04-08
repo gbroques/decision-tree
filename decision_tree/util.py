@@ -2,7 +2,7 @@ from collections import Counter
 from typing import List, Set
 
 
-def get_unique_values(rows: List, column_index: int) -> Set:
+def get_unique_values(rows: List[List], column_index: int) -> Set:
     """Find the unique values for a column in a dataset.
 
     Args:
@@ -15,7 +15,7 @@ def get_unique_values(rows: List, column_index: int) -> Set:
     return set([row[column_index] for row in rows])
 
 
-def count_labels(rows: List) -> Counter:
+def count_labels(rows: List[List]) -> Counter:
     """Counts the number of each label in the dataset.
 
     Assumes the label is the last element in the row.

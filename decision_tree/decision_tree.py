@@ -1,14 +1,15 @@
-from typing import List, Tuple, Union
+from typing import List, Tuple
 
 from .decision_node import DecisionNode
-from .helpers import count_labels
+from .util import count_labels
 from .leaf import Leaf
+from .node import Node
 from .question import Question
 
 
 class DecisionTree:
 
-    def build_tree(self, rows: List) -> Union[Leaf, DecisionNode]:
+    def build_tree(self, rows: List[List]) -> Node:
         """Builds the tree.
 
         Args:
@@ -30,7 +31,7 @@ class DecisionTree:
         return DecisionNode(question, true_branch, false_branch)
 
     @classmethod
-    def find_best_split(cls, rows: List) -> Tuple[float, Question]:
+    def find_best_split(cls, rows: List[List]) -> Tuple[float, Question]:
         """Find the best question to ask by iterating over every feature,
         and calculating the information gain.
 
@@ -65,7 +66,7 @@ class DecisionTree:
             return best_info_gain, best_question
 
     @staticmethod
-    def partition(rows: List, question: Question) -> Tuple[List, List]:
+    def partition(rows: List[List], question: Question) -> Tuple[List, List]:
         """Partition a dataset.
 
         Args:
@@ -87,7 +88,7 @@ class DecisionTree:
         return true_rows, false_rows
 
     @classmethod
-    def info_gain(cls, left: List, right: List, current_uncertainty: float) -> float:
+    def info_gain(cls, left: List[List], right: List[List], current_uncertainty: float) -> float:
         """Calculate the information gain.
 
         Information gain determines the goodness of a split.
@@ -105,7 +106,7 @@ class DecisionTree:
         return current_uncertainty - weighted_sum_of_children
 
     @staticmethod
-    def gini(rows: List) -> float:
+    def gini(rows: List[List]) -> float:
         """Calculate the Gini impurity for a list of rows.
 
         See:

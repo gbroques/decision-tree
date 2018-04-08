@@ -1,6 +1,6 @@
 from typing import List
 
-from .helpers import is_numeric
+from .util import is_numeric
 
 
 class Question:
