@@ -1,3 +1,6 @@
+from collections import Counter
+from typing import List
+
 from .leaf import Leaf
 from .node import Node
 from .question import Question
@@ -52,3 +55,13 @@ def print_tree_helper(node: Node, string: str, spacing=''):
     string += spacing + '--> False:\n'
     string = print_tree_helper(node.false_branch, string, spacing + '  ')
     return string
+
+
+def classify(row: List, node: Node) -> Counter:
+    if isinstance(node, Leaf):
+        return node.predictions
+
+    if node.question.match(row):
+        return classify(row, node.true_branch)
+    else:
+        return classify(row, node.false_branch)

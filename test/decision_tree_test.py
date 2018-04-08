@@ -1,7 +1,9 @@
 import unittest
+from collections import Counter
 
 from decision_tree import DecisionTree
 from decision_tree.decision_node import DecisionNode
+from decision_tree.decision_node import classify
 from decision_tree.leaf import Leaf
 from decision_tree.question import Question
 
@@ -81,6 +83,13 @@ class DecisionTreeTest(unittest.TestCase):
         child_false_branch = Leaf([['Green', 3, 'Apple']])
         false_branch = DecisionNode(child_question, child_true_branch, child_false_branch)
         return DecisionNode(question, true_branch, false_branch)
+
+    def test_classify(self):
+        expected_prediction = Counter({'Apple': 1})
+        decision_tree = DecisionTree()
+        tree = decision_tree.build_tree(self.training_data)
+        prediction = classify(self.training_data[0], tree)
+        self.assertEqual(expected_prediction, prediction)
 
 
 if __name__ == '__main__':
