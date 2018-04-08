@@ -26,3 +26,8 @@ class Question:
         return 'Is %s %s %s?' % (header[self.column_index],
                                  condition,
                                  str(self.value))
+
+    def __eq__(self, other):
+        return (isinstance(other, Question) and
+                self.value == other.value and
+                self.column_index == other.column_index)

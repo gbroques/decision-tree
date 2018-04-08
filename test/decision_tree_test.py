@@ -54,6 +54,11 @@ class DecisionTreeTest(unittest.TestCase):
         info_gain = DecisionTree.info_gain(true_rows, false_rows, current_uncertainty)
         self.assertAlmostEqual(expected_info_gain, info_gain)
 
+    def test_find_best_split(self):
+        expected_best_question = Question(0, 'Red')
+        best_info_gain, best_question = DecisionTree.find_best_split(self.training_data)
+        self.assertEqual(expected_best_question, best_question)
+
 
 if __name__ == '__main__':
     unittest.main()
