@@ -59,6 +59,11 @@ class DecisionTreeTest(unittest.TestCase):
         best_info_gain, best_question = DecisionTree.find_best_split(self.training_data)
         self.assertEqual(expected_best_question, best_question)
 
+    def test_find_best_split_with_no_best_question(self):
+        rows = [['Green', 3, 'Apple']]
+        best_info_gain, best_question = DecisionTree.find_best_split(rows)
+        self.assertIsNone(best_question)
+
 
 if __name__ == '__main__':
     unittest.main()
