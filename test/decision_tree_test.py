@@ -84,11 +84,18 @@ class DecisionTreeTest(unittest.TestCase):
         false_branch = DecisionNode(child_question, child_true_branch, child_false_branch)
         return DecisionNode(question, true_branch, false_branch)
 
-    def test_classify(self):
+    def test_classify_with_false_branch(self):
         expected_prediction = Counter({'Apple': 1})
         decision_tree = DecisionTree()
         tree = decision_tree.build_tree(self.training_data)
         prediction = classify(self.training_data[0], tree)
+        self.assertEqual(expected_prediction, prediction)
+
+    def test_classify_with_true_branch(self):
+        expected_prediction = Counter({'Grape': 2})
+        decision_tree = DecisionTree()
+        tree = decision_tree.build_tree(self.training_data)
+        prediction = classify(self.training_data[2], tree)
         self.assertEqual(expected_prediction, prediction)
 
 

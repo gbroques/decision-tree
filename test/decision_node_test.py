@@ -30,8 +30,8 @@ class DecisionNodeTest(unittest.TestCase):
     def test_compare_trees_not_equal(self):
         tree = self.build_tree()
         question = Question(0, 'Red')
-        true_branch = Leaf([['Yellow', 3, 'Apple'], ['Yellow', 3, 'Lemon']])
-        not_equal_tree = DecisionNode(question, true_branch, None)
+        false_branch = Leaf([['Yellow', 3, 'Apple'], ['Yellow', 3, 'Lemon']])
+        not_equal_tree = DecisionNode(question, None, false_branch)
         self.assertFalse(compare_trees(tree, not_equal_tree))
 
     @staticmethod
