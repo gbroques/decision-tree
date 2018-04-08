@@ -38,6 +38,22 @@ class DecisionTreeTest(unittest.TestCase):
         mixed = [['Apple'], ['Grape'], ['Banana'], ['Lemon'], ['Orange']]
         self.assertAlmostEqual(0.8, DecisionTree.gini(mixed))
 
+    def test_info_gain(self):
+        expected_info_gain = 0.14
+        question = Question(0, 'Green')
+        true_rows, false_rows = DecisionTree.partition(self.training_data, question)
+        current_uncertainty = DecisionTree.gini(self.training_data)
+        info_gain = DecisionTree.info_gain(true_rows, false_rows, current_uncertainty)
+        self.assertAlmostEqual(expected_info_gain, info_gain)
+
+    def test_info_gain_with_better_split(self):
+        expected_info_gain = 0.3733333
+        question = Question(0, 'Red')
+        true_rows, false_rows = DecisionTree.partition(self.training_data, question)
+        current_uncertainty = DecisionTree.gini(self.training_data)
+        info_gain = DecisionTree.info_gain(true_rows, false_rows, current_uncertainty)
+        self.assertAlmostEqual(expected_info_gain, info_gain)
+
 
 if __name__ == '__main__':
     unittest.main()

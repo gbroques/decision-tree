@@ -16,6 +16,12 @@ class DecisionTree:
                 false_rows.append(row)
         return true_rows, false_rows
 
+    @classmethod
+    def info_gain(cls, left: List, right: List, current_uncertainty: float) -> float:
+        p = float(len(left)) / (len(left) + len(right))
+        weighted_sum_of_children = p * cls.gini(left) + (1 - p) * cls.gini(right)
+        return current_uncertainty - weighted_sum_of_children
+
     @staticmethod
     def gini(rows: List) -> float:
         label_counts = count_labels(rows)
