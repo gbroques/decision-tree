@@ -45,15 +45,15 @@ class DecisionNodeTest(unittest.TestCase):
         return DecisionNode(question, true_branch, false_branch)
 
     def test_tree_str(self):
-        expected_string = ('Is color == Red?\n' +
-                           '--> True:\n' +
-                           '  Predict Counter({\'Grape\': 2})\n' +
-                           '--> False:\n' +
-                           '  Is color == Yellow?\n' +
-                           '  --> True:\n' +
-                           '    Predict Counter({\'Apple\': 1, \'Lemon\': 1})\n' +
-                           '  --> False:\n' +
-                           '    Predict Counter({\'Apple\': 1})\n')
+        expected_string = ("Is color == Red?\n" +
+                           "--> True:\n" +
+                           "  Predict {'Grape': '100.0%'}\n" +
+                           "--> False:\n" +
+                           "  Is color == Yellow?\n" +
+                           "  --> True:\n" +
+                           "    Predict {'Apple': '50.0%', 'Lemon': '50.0%'}\n" +
+                           "  --> False:\n" +
+                           "    Predict {'Apple': '100.0%'}\n")
         tree = self.build_tree()
         self.assertEqual(expected_string, str(tree))
 

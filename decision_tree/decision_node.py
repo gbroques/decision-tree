@@ -42,7 +42,7 @@ def print_tree(node: Node, spacing='') -> str:
 
 def print_tree_helper(node: Node, string: str, spacing=''):
     if isinstance(node, Leaf):
-        string += spacing + 'Predict ' + str(node.predictions) + '\n'
+        string += spacing + 'Predict ' + str(node) + '\n'
         return string
 
     assert isinstance(node, DecisionNode)
