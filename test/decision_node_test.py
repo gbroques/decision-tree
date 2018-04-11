@@ -36,9 +36,9 @@ class DecisionNodeTest(unittest.TestCase):
 
     @staticmethod
     def build_tree() -> DecisionNode:
-        question = Question(0, 'Red')
+        question = Question(0, 'Red', 'color')
         true_branch = Leaf([['Red', 1, 'Grape'], ['Red', 1, 'Grape']])
-        child_question = Question(0, 'Yellow')
+        child_question = Question(0, 'Yellow', 'color')
         child_true_branch = Leaf([['Yellow', 3, 'Apple'], ['Yellow', 3, 'Lemon']])
         child_false_branch = Leaf([['Green', 3, 'Apple']])
         false_branch = DecisionNode(child_question, child_true_branch, child_false_branch)

@@ -6,9 +6,12 @@ from .util import is_numeric
 class Question:
     """A Question is used to partition a dataset."""
 
-    def __init__(self, column_index: int, value):
+    def __init__(self, column_index: int, value, feature_name: str = None):
         self.column_index = column_index
         self.value = value
+        self.feature_name = feature_name
+        if feature_name is None:
+            self.feature_name = 'feature ' + str(column_index)
 
     def match(self, example: List):
         value = example[self.column_index]
@@ -21,9 +24,7 @@ class Question:
         condition = '=='
         if is_numeric(self.value):
             condition = '>='
-        # TODO: Figure out how to make header configurable
-        header = ['color', 'diameter', 'label']
-        return 'Is %s %s %s?' % (header[self.column_index],
+        return 'Is %s %s %s?' % (self.feature_name,
                                  condition,
                                  str(self.value))
 

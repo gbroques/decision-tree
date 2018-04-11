@@ -1,4 +1,4 @@
-from typing import List, Tuple
+from typing import List, Tuple, Union
 
 from .decision_node import DecisionNode
 from .decision_node import classify
@@ -10,8 +10,9 @@ from .util import count_labels
 
 class DecisionTree:
 
-    def __init__(self):
+    def __init__(self, feature_names: List[str] = None):
         self._root = None
+        self._feature_names = feature_names
 
     def fit(self, design_matrix: List[List], target_values: List) -> 'DecisionTree':
         """Fit model according to design matrix and target values.
@@ -42,8 +43,8 @@ class DecisionTree:
         predictions = []
         for i in range(len(test_set)):
             prediction = classify(test_set[i], self._root)
-            prediction = max(prediction, key=lambda label: prediction[label])
-            predictions.append(prediction)
+            best_prediction = max(prediction, key=lambda key: prediction[key])
+            predictions.append(best_prediction)
 
         return predictions
 
@@ -72,8 +73,7 @@ class DecisionTree:
 
         return DecisionNode(question, true_branch, false_branch)
 
-    @classmethod
-    def _find_best_split(cls, rows: List[List]) -> Tuple[float, Question]:
+    def _find_best_split(self, rows: List[List]) -> Tuple[float, Question]:
         """Find the best question to ask by iterating over every feature,
         and calculating the information gain.
 
@@ -85,22 +85,23 @@ class DecisionTree:
         """
         best_info_gain = 0
         best_question = None
-        current_uncertainty = cls._gini(rows)
+        current_uncertainty = self._gini(rows)
         num_features = len(rows[0]) - 1
 
         for column_index in range(num_features):
             values = set([row[column_index] for row in rows])
 
             for value in values:
-                question = Question(column_index, value)
+                feature_name = self._get_feature_name(column_index)
+                question = Question(column_index, value, feature_name)
 
-                true_rows, false_rows = cls._partition(rows, question)
+                true_rows, false_rows = self._partition(rows, question)
 
                 # Skip this split if it doesn't divide the dataset
                 if len(true_rows) == 0 or len(false_rows) == 0:
                     continue
 
-                info_gain = cls.info_gain(true_rows, false_rows, current_uncertainty)
+                info_gain = self.info_gain(true_rows, false_rows, current_uncertainty)
 
                 if info_gain >= best_info_gain:
                     best_info_gain, best_question = info_gain, question
@@ -166,3 +167,9 @@ class DecisionTree:
             probability = count / float(len(rows))
             impurity -= probability ** 2
         return impurity
+
+    def _get_feature_name(self, column_index: int) -> Union[str, None]:
+        if self._feature_names is None:
+            return None
+        else:
+            return self._feature_names[column_index]

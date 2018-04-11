@@ -40,12 +40,12 @@ class QuestionTest(unittest.TestCase):
         self.assertFalse(question.match(example))
 
     def test_repr(self):
-        expected_repr = 'Is color == Red?'
+        expected_repr = 'Is feature 0 == Red?'
         question = Question(0, 'Red')
         self.assertEqual(expected_repr, repr(question))
 
     def test_repr_with_numeric_value(self):
-        expected_repr = 'Is diameter >= 2?'
+        expected_repr = 'Is feature 1 >= 2?'
         question = Question(1, 2)
         self.assertEqual(expected_repr, repr(question))
 

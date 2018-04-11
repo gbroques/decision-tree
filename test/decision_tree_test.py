@@ -19,14 +19,14 @@ class DecisionTreeTest(unittest.TestCase):
             ['Red', 1, 'Grape'],
             ['Yellow', 3, 'Lemon']
         ]
+        cls.decision_tree = DecisionTree()
+        cls.design_matrix = [row[:-1] for row in cls.training_data]
+        cls.target_values = [row[-1] for row in cls.training_data]
+        cls.decision_tree.fit(cls.design_matrix, cls.target_values)
 
     def test_fit_and_predict(self):
-        design_matrix = [row[:-1] for row in self.training_data]
-        target_values = [row[-1] for row in self.training_data]
         expected_predictions = ['Apple', 'Apple', 'Grape', 'Grape', 'Apple']
-        decision_tree = DecisionTree()
-        decision_tree.fit(design_matrix, target_values)
-        predictions = decision_tree.predict(design_matrix)
+        predictions = self.decision_tree.predict(self.design_matrix)
         self.assertEqual(expected_predictions, predictions)
 
     def test_partition(self):
@@ -69,12 +69,12 @@ class DecisionTreeTest(unittest.TestCase):
 
     def test_find_best_split(self):
         expected_best_question = Question(0, 'Red')
-        best_info_gain, best_question = DecisionTree._find_best_split(self.training_data)
+        best_info_gain, best_question = self.decision_tree._find_best_split(self.training_data)
         self.assertEqual(expected_best_question, best_question)
 
     def test_find_best_split_with_no_best_question(self):
         rows = [['Green', 3, 'Apple']]
-        best_info_gain, best_question = DecisionTree._find_best_split(rows)
+        best_info_gain, best_question = self.decision_tree._find_best_split(rows)
         self.assertIsNone(best_question)
 
     def test_build_tree(self):
