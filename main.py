@@ -14,7 +14,7 @@ def main():
     decision_tree = DecisionTree()
     decision_tree.fit(design_matrix, target_values)
     predictions = decision_tree.predict(design_matrix)
-    print(decision_tree)
+    decision_tree.print()
 
 
 if __name__ == '__main__':

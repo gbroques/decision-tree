@@ -47,6 +47,10 @@ class DecisionTree:
 
         return predictions
 
+    def print(self) -> None:
+        """Print the decision tree."""
+        print(self._root)
+
     def _build_tree(self, rows: List[List]) -> Node:
         """Builds the tree.
 
