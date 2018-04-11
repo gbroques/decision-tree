@@ -1,15 +1,53 @@
 from typing import List, Tuple
 
 from .decision_node import DecisionNode
-from .util import count_labels
+from .decision_node import classify
 from .leaf import Leaf
 from .node import Node
 from .question import Question
+from .util import count_labels
 
 
 class DecisionTree:
 
-    def build_tree(self, rows: List[List]) -> Node:
+    def __init__(self):
+        self._root = None
+
+    def fit(self, design_matrix: List[List], target_values: List) -> 'DecisionTree':
+        """Fit model according to design matrix and target values.
+
+        Args:
+            design_matrix: Training examples with dimension m x n,
+                           where m is the number of examples,
+                           and n is the number of features.
+            target_values: Target values with dimension m,
+                           where m is the number of examples
+
+        Returns: self
+        """
+        rows = [row + [target_values[i]] for i, row in enumerate(design_matrix)]
+        self._root = self._build_tree(rows)
+        return self
+
+    def predict(self, test_set: List[List]) -> List:
+        """Predict target values for test set.
+
+        Args:
+            test_set: Test set with dimension m xn,
+                      where m is the number of examples,
+                      and n is the number of features.
+        Returns: Predicted target values for the test set with dimension m,
+                 where m is the number of examples.
+        """
+        predictions = []
+        for i in range(len(test_set)):
+            prediction = classify(test_set[i], self._root)
+            prediction = max(prediction, key=lambda label: prediction[label])
+            predictions.append(prediction)
+
+        return predictions
+
+    def _build_tree(self, rows: List[List]) -> Node:
         """Builds the tree.
 
         Args:
@@ -18,20 +56,20 @@ class DecisionTree:
         Returns:
             Root decision node.
         """
-        info_gain, question = self.find_best_split(rows)
+        info_gain, question = self._find_best_split(rows)
 
         if info_gain == 0:
             return Leaf(rows)
 
-        true_rows, false_rows = self.partition(rows, question)
+        true_rows, false_rows = self._partition(rows, question)
 
-        true_branch = self.build_tree(true_rows)
-        false_branch = self.build_tree(false_rows)
+        true_branch = self._build_tree(true_rows)
+        false_branch = self._build_tree(false_rows)
 
         return DecisionNode(question, true_branch, false_branch)
 
     @classmethod
-    def find_best_split(cls, rows: List[List]) -> Tuple[float, Question]:
+    def _find_best_split(cls, rows: List[List]) -> Tuple[float, Question]:
         """Find the best question to ask by iterating over every feature,
         and calculating the information gain.
 
@@ -43,7 +81,7 @@ class DecisionTree:
         """
         best_info_gain = 0
         best_question = None
-        current_uncertainty = cls.gini(rows)
+        current_uncertainty = cls._gini(rows)
         num_features = len(rows[0]) - 1
 
         for column_index in range(num_features):
@@ -52,7 +90,7 @@ class DecisionTree:
             for value in values:
                 question = Question(column_index, value)
 
-                true_rows, false_rows = cls.partition(rows, question)
+                true_rows, false_rows = cls._partition(rows, question)
 
                 # Skip this split if it doesn't divide the dataset
                 if len(true_rows) == 0 or len(false_rows) == 0:
@@ -66,7 +104,7 @@ class DecisionTree:
             return best_info_gain, best_question
 
     @staticmethod
-    def partition(rows: List[List], question: Question) -> Tuple[List, List]:
+    def _partition(rows: List[List], question: Question) -> Tuple[List, List]:
         """Partition a dataset.
 
         Args:
@@ -102,11 +140,11 @@ class DecisionTree:
             Information gain, the goodness of the split.
         """
         p = float(len(left)) / (len(left) + len(right))
-        weighted_sum_of_children = p * cls.gini(left) + (1 - p) * cls.gini(right)
+        weighted_sum_of_children = p * cls._gini(left) + (1 - p) * cls._gini(right)
         return current_uncertainty - weighted_sum_of_children
 
     @staticmethod
-    def gini(rows: List[List]) -> float:
+    def _gini(rows: List[List]) -> float:
         """Calculate the Gini impurity for a list of rows.
 
         See:

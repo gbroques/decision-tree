@@ -9,9 +9,12 @@ def main():
         ['Red', 1, 'Grape'],
         ['Yellow', 3, 'Lemon']
     ]
+    design_matrix = [row[:-1] for row in training_data]
+    target_values = [row[-1] for row in training_data]
     decision_tree = DecisionTree()
-    tree = decision_tree.build_tree(training_data)
-    print(tree)
+    decision_tree.fit(design_matrix, target_values)
+    predictions = decision_tree.predict(design_matrix)
+    print(decision_tree)
 
 
 if __name__ == '__main__':
