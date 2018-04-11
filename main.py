@@ -3,11 +3,11 @@ from decision_tree import DecisionTree
 
 def main():
     training_data = [
-        ['Green', 3, 'Apple'],
-        ['Yellow', 3, 'Apple'],
-        ['Red', 1, 'Grape'],
-        ['Red', 1, 'Grape'],
-        ['Yellow', 3, 'Lemon']
+        [1, 1, 1, 0],
+        [1, 1, 0, 1],
+        [0, 0, 1, 1],
+        [1, 1, 0, 0],
+        [1, 0, 0, 1]
     ]
     design_matrix = [row[:-1] for row in training_data]
     target_values = [row[-1] for row in training_data]
