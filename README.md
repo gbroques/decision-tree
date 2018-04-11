@@ -47,8 +47,8 @@ Is feature 1 >= 1?
   Predict {1: '100.0%'}
 ```
 
-In the case of ambiguous records like `[1, 1, 0]` where two records exist where the feature values are the same,
-but the labels are different, the tree always predicts the first element in the prediction dictionary or `1` in this case.
+In the case of ambiguous records like `[1, 1, 0]` where two records exist with the same feature values,
+but different labels, the tree always predicts the first key in the prediction dictionary or `1` in this example.
 
 Adapted from:
 
