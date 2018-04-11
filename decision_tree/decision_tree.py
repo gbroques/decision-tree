@@ -106,7 +106,7 @@ class DecisionTree:
                 if info_gain >= best_info_gain:
                     best_info_gain, best_question = info_gain, question
 
-            return best_info_gain, best_question
+        return best_info_gain, best_question
 
     @staticmethod
     def _partition(rows: List[List], question: Question) -> Tuple[List, List]:

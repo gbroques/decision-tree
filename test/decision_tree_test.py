@@ -68,7 +68,7 @@ class DecisionTreeTest(unittest.TestCase):
         self.assertAlmostEqual(expected_info_gain, info_gain)
 
     def test_find_best_split(self):
-        expected_best_question = Question(0, 'Red')
+        expected_best_question = Question(1, 3)
         best_info_gain, best_question = self.decision_tree._find_best_split(self.training_data)
         self.assertEqual(expected_best_question, best_question)
 
@@ -85,12 +85,13 @@ class DecisionTreeTest(unittest.TestCase):
 
     @staticmethod
     def build_expected_tree() -> DecisionNode:
-        question = Question(0, 'Red')
-        true_branch = Leaf([['Red', 1, 'Grape'], ['Red', 1, 'Grape']])
+        question = Question(1, 3)
+        false_branch = Leaf([['Red', 1, 'Grape'], ['Red', 1, 'Grape']])
         child_question = Question(0, 'Yellow')
         child_true_branch = Leaf([['Yellow', 3, 'Apple'], ['Yellow', 3, 'Lemon']])
         child_false_branch = Leaf([['Green', 3, 'Apple']])
-        false_branch = DecisionNode(child_question, child_true_branch, child_false_branch)
+        true_branch = DecisionNode(child_question, child_true_branch, child_false_branch)
+
         return DecisionNode(question, true_branch, false_branch)
 
     def test_classify_with_false_branch(self):
