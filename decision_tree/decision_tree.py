@@ -48,6 +48,19 @@ class DecisionTree:
 
         return predictions
 
+    def predict_example(self, test_example: List):
+        """Predict target value for a single test example.
+
+        Args:
+            test_example: Test example with dimension n x 1,
+                          where n is the number of features.
+        Returns: Predicted target values for the test example with dimension m,
+                 where m is the number of examples.
+        """
+        prediction = classify(test_example, self._root)
+        best_prediction = max(prediction, key=lambda key: prediction[key])
+        return best_prediction
+
     def print(self) -> None:
         """Print the decision tree."""
         print(self._root)
